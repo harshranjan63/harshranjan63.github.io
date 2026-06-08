@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh Ranjan — DevSecOps Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080C0B;
+    --bg2: #0E1412;
+    --bg3: #141C1A;
+    --accent: #00E5A0;
+    --accent2: #00B87A;
+    --accent-dim: rgba(0,229,160,0.12);
+    --text: #E8EDE9;
+    --muted: #6B7F76;
+    --border: rgba(0,229,160,0.15);
+    --border2: rgba(0,229,160,0.08);
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border2) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border2);
+    background: rgba(8,12,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-inner { max-width: 780px; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .hero-name {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-role {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    min-height: 1.7em;
+  }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .hero-desc {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.9;
+    margin-bottom: 3rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .stat-val {
+    font-family: var(--sans);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #080C0B;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-ghost {
+    padding: 12px 28px;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .btn-ghost:hover { background: var(--accent-dim); transform: translateY(-1px); }
+
+  /* ── SHARED SECTION WRAPPER ── */
+  .section-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+  }
+  .section-label {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: var(--sans);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── ABOUT ── */
+  #about { border-top: 1px solid var(--border2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    line-height: 1.9;
+    font-size: 13px;
+  }
+  .certs-list { list-style: none; }
+  .certs-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border2);
+    font-size: 13px;
+  }
+  .cert-icon {
+    width: 32px; height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .cert-name { color: var(--text); font-size: 12px; font-weight: 700; }
+  .cert-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+  /* ── ACHIEVEMENTS ── */
+  #achievements { border-top: 1px solid var(--border2); background: var(--bg2); }
+  .ach-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .ach-card {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 2rem;
+    background: var(--bg3);
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ach-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+  }
+  .ach-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+  .ach-number {
+    font-family: var(--sans);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .ach-desc { color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+  /* ── SKILLS ── */
+  #skills { border-top: 1px solid var(--border2); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .skill-card {
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 1.5rem;
+    background: var(--bg2);
+    transition: border-color 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border); }
+  .skill-category {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    background: var(--bg3);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { border-top: 1px solid var(--border2); background: var(--bg2); }
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-left: 2rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    border-radius: 50%;
+  }
+  .timeline-item.active::before { background: var(--accent); }
+  .timeline-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 10px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+  .timeline-role {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .timeline-company {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 5px 0;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.7;
+  }
+  .timeline-bullets li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+
+  /* ── PROJECTS ── */
+  #projects { border-top: 1px solid var(--border2); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    padding: 2rem;
+    background: var(--bg2);
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .project-num {
+    font-size: 10px;
+    color: var(--accent);
+    opacity: 0.4;
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 3rem;
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    line-height: 1;
+  }
+  .project-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
+  }
+  .project-title {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .project-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  #contact { border-top: 1px solid var(--border2); background: var(--bg2); }
+  .contact-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 6rem;
+  }
+  .contact-left { flex: 1; }
+  .contact-title {
+    font-family: var(--sans);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .contact-title span { color: var(--accent); }
+  .contact-sub { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 400px; }
+  .contact-right { min-width: 280px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border2);
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border2);
+    padding: 2rem 3rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+  footer span { color: var(--accent); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .section-wrap { padding: 4rem 1.5rem; }
+    #hero { padding: 6rem 1.5rem 3rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .contact-inner { flex-direction: column; gap: 2rem; }
+    .contact-right { min-width: auto; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">HR // DevSecOps</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Available from 30th July 2026</div>
+    <h1 class="hero-name">Harsh<br><span>Ranjan</span></h1>
+    <p class="hero-role" id="typed-role"><span class="cursor"></span></p>
+    <p class="hero-desc">
+      Securing production cloud environments at scale — embedding zero-trust security, 
+      secrets management, and shift-left practices into every layer of the DevOps pipeline 
+      across GCP, AWS, and hybrid infrastructures.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-val">2+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div>
+        <span class="stat-val">800+</span>
+        <span class="stat-label">Microservices Secured</span>
+      </div>
+      <div>
+        <span class="stat-val">99.99%</span>
+        <span class="stat-label">SLA Maintained</span>
+      </div>
+      <div>
+        <span class="stat-val">95%</span>
+        <span class="stat-label">Credential Leakage Cut</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="#experience" class="btn-ghost">View Experience</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <p class="section-label">$ whoami</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>DevSecOps Engineer with 2+ years of hands-on experience securing and managing production cloud environments across GCP, AWS, and hybrid infrastructures.</p>
+        <p>Hands-on expertise in Identity & Access Management (IAM), Privileged Access Management (PAM), Web Application Security, Cloud Security Posture Management, Secrets Management, and Kubernetes Security.</p>
+        <p>I build security guardrails as code — policies, scanning rules, and firewall configs that engineering teams consume without slowing delivery velocity. Shift-left by default, continuously hardening by design.</p>
+        <p>B.Tech in Electronics & Telecommunication Engineering from VSSUT Burla (2020–2024). Currently serving notice period, available from 30th July 2026.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <p style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem;">Certifications</p>
+        <ul class="certs-list">
+          <li>
+            <div class="cert-icon">☁</div>
+            <div>
+              <div class="cert-name">Google Cloud Certified</div>
+              <div class="cert-sub">Associate Cloud Engineer · Active till Aug 2027</div>
+            </div>
+          </li>
+          <li>
+            <div class="cert-icon">🔐</div>
+            <div>
+              <div class="cert-name">GCP Security Fundamentals</div>
+              <div class="cert-sub">Google Cloud Badge</div>
+            </div>
+          </li>
+          <li>
+            <div class="cert-icon">⚙</div>
+            <div>
+              <div class="cert-name">PCI-DSS Certified Application</div>
+              <div class="cert-sub">Access Portal — Production Deployment</div>
+            </div>
+          </li>
+        </ul>
+        <p style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin:2rem 0 1rem;">Education</p>
+        <div style="border:1px solid var(--border2);padding:1.2rem;border-radius:2px;background:var(--bg3);">
+          <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:4px;">B.Tech — Electronics & Telecom Engineering</div>
+          <div style="font-size:11px;color:var(--muted);">VSSUT Burla, Odisha · 2020 – 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-wrap">
+    <p class="section-label">$ cat achievements.log</p>
+    <h2 class="section-title">Key Achievements</h2>
+    <div class="ach-grid">
+      <div class="ach-card reveal">
+        <div class="ach-number">95%</div>
+        <div class="ach-desc">Reduction in credential leakage across 800+ microservices via pipeline-integrated secrets scanning</div>
+      </div>
+      <div class="ach-card reveal" style="transition-delay:.1s">
+        <div class="ach-number">10K+</div>
+        <div class="ach-desc">API endpoints secured with zero-trust architecture using Istio mTLS and GCP/AWS WAF</div>
+      </div>
+      <div class="ach-card reveal" style="transition-delay:.2s">
+        <div class="ach-number">30+</div>
+        <div class="ach-desc">Service accounts and VPC firewall policies managed under strict IAM/PAM governance frameworks</div>
+      </div>
+      <div class="ach-card reveal" style="transition-delay:.3s">
+        <div class="ach-number">50K+</div>
+        <div class="ach-desc">Daily requests handled at 99.99% availability across hybrid cloud production infrastructure</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <p class="section-label">$ ls skills/</p>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-category">DevSecOps & Security</div>
+        <div class="skill-tags">
+          <span class="tag">Shift-Left Security</span><span class="tag">SSDLC</span><span class="tag">Trivy</span><span class="tag">Vulnerability Detection</span><span class="tag">Credential Scanning</span><span class="tag">PCI-DSS</span>
+        </div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:.05s">
+        <div class="skill-category">Secrets & Identity</div>
+        <div class="skill-tags">
+          <span class="tag">HashiCorp Vault</span><span class="tag">GCP Secret Manager</span><span class="tag">AWS Secrets Manager</span><span class="tag">IAM</span><span class="tag">PAM</span>
+        </div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:.1s">
+        <div class="skill-category">CI/CD & Containers</div>
+        <div class="skill-tags">
+          <span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Helm</span><span class="tag">Git</span><span class="tag">Pipeline Security Gates</span>
+        </div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:.15s">
+        <div class="skill-category">Cloud Security Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Google Cloud Armor</span><span class="tag">AWS WAF</span><span class="tag">AWS Shield</span><span class="tag">GCP SCC</span><span class="tag">Cloud IAM</span>
+        </div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:.2s">
+        <div class="skill-category">Service Mesh & API</div>
+        <div class="skill-tags">
+          <span class="tag">Istio</span><span class="tag">Gloo</span><span class="tag">Apigee</span><span class="tag">mTLS</span><span class="tag">NGINX</span><span class="tag">Traffic Policies</span>
+        </div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:.25s">
+        <div class="skill-category">Scripting & Monitoring</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">Node.js</span><span class="tag">CloudWatch</span><span class="tag">Grafana</span><span class="tag">RCA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <p class="section-label">$ git log --oneline</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item active reveal">
+        <span class="timeline-badge">CURRENT · FULL-TIME</span>
+        <div class="timeline-role">DevSecOps & Cloud Infrastructure Engineer</div>
+        <div class="timeline-company">iServeU Technologies Pvt. Ltd. · Bhubaneswar · June 2024 – Present</div>
+        <ul class="timeline-bullets">
+          <li>Embedded security controls into CI/CD pipelines (Jenkins) — achieving 95% reduction in credential leakage across 800+ microservices via automated secrets scanning and policy enforcement gates.</li>
+          <li>Designed and enforced IAM/PAM frameworks for 30+ service accounts with least-privilege principles and VPC firewall policies governing inter-service communication.</li>
+          <li>Deployed Google Cloud Armor and AWS WAF/Shield as multi-layered perimeter security against DDoS, OWASP Top 10, and unauthorized traffic for 10,000+ API endpoints.</li>
+          <li>Built hybrid Kubernetes infrastructure (on-prem + GCP + AWS) with Istio mTLS, zero-trust inter-service communication, and enforced RBAC/network policies across microservices.</li>
+          <li>Managed secrets across multi-cloud using HashiCorp Vault and GCP/AWS Secret Manager — ensuring no hardcoded credentials in source or containers.</li>
+          <li>Conducted production incident RCA with security lens — patching vulnerabilities and implementing continuous hardening guardrails.</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:.15s">
+        <span class="timeline-badge">INTERNSHIP</span>
+        <div class="timeline-role">Software Engineer Intern</div>
+        <div class="timeline-company">iServeU Technologies Pvt. Ltd. · Bhubaneswar · Dec 2023 – May 2024</div>
+        <ul class="timeline-bullets">
+          <li>Configured IAM roles, policies, and service account permissions across GCP and AWS — enforcing least-privilege access under senior guidance.</li>
+          <li>Deployed and managed NGINX as reverse proxy — configuring SSL termination, rate limiting, upstream routing, and access control rules.</li>
+          <li>Assisted in Kubernetes cluster operations: pod deployment, namespace management, service configuration, and resource quota enforcement.</li>
+          <li>Implemented and maintained firewall rules and VPC network policies across GCP and AWS to enforce network segmentation.</li>
+          <li>Integrated HashiCorp Vault for centralized secrets — configuring dynamic secrets, token auth, and access policies to eliminate hardcoded credentials.</li>
+          <li>Containerized workloads with Docker following security best practices; ran Trivy secret scanning on images and source repos.</li>
+          <li>Configured Google Cloud Armor WAF policies — security rules, bot management, and rate limiting against OWASP Top 10 threats.</li>
+          <li>Worked with GCP Secret Manager and AWS Secrets Manager for application-level secret injection and rotation procedures.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <p class="section-label">$ ls projects/</p>
+    <h2 class="section-title">Key Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-num">01</div>
+        <div class="project-badge">PCI-DSS Certified · 2025–2026</div>
+        <div class="project-title">Access Portal — PAM & Secrets Management Platform</div>
+        <div class="project-desc">Full-stack user management portal with automated secret creation integrated with GCP & AWS Secret Manager. Features PAM approval workflows, audit log management, GCP PAM/IAM review functionalities, 2FA, and account lockout. Fully PCI-DSS compliant.</div>
+        <div class="project-tags">
+          <span class="project-tag">Kubernetes</span><span class="project-tag">Node.js</span><span class="project-tag">GCP Secret Manager</span><span class="project-tag">AWS Secrets Manager</span><span class="project-tag">IAM/PAM</span><span class="project-tag">PCI-DSS</span>
+        </div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:.1s">
+        <div class="project-num">02</div>
+        <div class="project-badge">2024</div>
+        <div class="project-title">Shift-Left Security Pipeline Integration</div>
+        <div class="project-desc">Security automation embedded into CI/CD pipelines using Bash scripts, Trivy scanning, and Jenkins plugins. Automates SAST-style credential scanning and policy validation on every code commit — blocking insecure builds from progressing through the SDLC.</div>
+        <div class="project-tags">
+          <span class="project-tag">Jenkins</span><span class="project-tag">Trivy</span><span class="project-tag">Bash</span><span class="project-tag">GCP</span><span class="project-tag">AWS</span><span class="project-tag">SAST</span>
+        </div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:.2s">
+        <div class="project-num">03</div>
+        <div class="project-badge">2023 – 2024</div>
+        <div class="project-title">Multi-Cloud Perimeter Security Architecture</div>
+        <div class="project-desc">Unified perimeter defence layer across GCP and AWS applying WAF rulesets, rate limiting, and geo-based access policies. Reduced attack surface across 50,000+ daily requests. Built with HashiCorp Vault for centralized secrets across environments.</div>
+        <div class="project-tags">
+          <span class="project-tag">Cloud Armor</span><span class="project-tag">AWS WAF/Shield</span><span class="project-tag">HashiCorp Vault</span><span class="project-tag">Zero-Trust</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <p class="section-label">$ ping harsh</p>
+        <h2 class="contact-title">Let's<br><span>Connect</span></h2>
+        <p class="contact-sub">Available for new roles from 30th July 2026. Open to DevSecOps, Cloud Security, Platform Engineering, and AWS/GCP infrastructure roles across India and remote opportunities.</p>
+      </div>
+      <div class="contact-right reveal" style="transition-delay:.15s">
+        <a href="mailto:harshranjan63@gmail.com" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          <div>
+            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Email</div>
+            <div>harshranjan63@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+918249162133" class="contact-link">
+          <div class="contact-link-icon">📞</div>
+          <div>
+            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Phone</div>
+            <div>+91 8249162133</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/harshranjan63" target="_blank" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          <div>
+            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">LinkedIn</div>
+            <div>linkedin.com/in/harshranjan63</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">📍</div>
+          <div>
+            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Location</div>
+            <div>Bhubaneswar, India</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Harsh Ranjan</span> · DevSecOps Engineer · Built with purpose, secured by design.
+</footer>
+
+<script>
+  // ── TYPING ANIMATION ──
+  const roles = [
+    "DevSecOps Engineer",
+    "Cloud Security Engineer",
+    "Platform Engineer",
+    "GCP & AWS Specialist",
+  ];
+  let ri = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed-role');
+
+  function type() {
+    const current = roles[ri];
+    if (!deleting) {
+      el.innerHTML = current.slice(0, ci + 1) + '<span class="cursor"></span>';
+      ci++;
+      if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      el.innerHTML = current.slice(0, ci - 1) + '<span class="cursor"></span>';
+      ci--;
+      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+    }
+    setTimeout(type, deleting ? 45 : 80);
+  }
+  type();
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
