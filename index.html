@@ -1,862 +1,1688 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harsh Ranjan — Cloud Security Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #080C0B;
-    --bg2: #0E1412;
-    --bg3: #141C1A;
-    --accent: #00E5A0;
-    --accent2: #00B87A;
-    --accent-dim: rgba(0,229,160,0.12);
-    --text: #E8EDE9;
-    --muted: #6B7F76;
-    --border: rgba(0,229,160,0.15);
-    --border2: rgba(0,229,160,0.08);
-    --mono: 'Space Mono', monospace;
-    --sans: 'Syne', sans-serif;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 14px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── GRID OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border2) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border2) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1rem 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border2);
-    background: rgba(8,12,11,0.85);
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* ── SECTIONS ── */
-  section { position: relative; z-index: 1; }
-
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 3rem 4rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .hero-inner { max-width: 780px; }
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-  }
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
-  .hero-name {
-    font-family: var(--sans);
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-  .hero-name span { color: var(--accent); }
-  .hero-role {
-    font-family: var(--mono);
-    font-size: 1rem;
-    color: var(--muted);
-    margin-bottom: 2rem;
-    min-height: 1.7em;
-  }
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: var(--accent);
-    vertical-align: middle;
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-  }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .hero-desc {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 580px;
-    line-height: 1.9;
-    margin-bottom: 3rem;
-  }
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-bottom: 3rem;
-  }
-  .stat-val {
-    font-family: var(--sans);
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--accent);
-    display: block;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
-  }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    padding: 12px 28px;
-    background: var(--accent);
-    color: #080C0B;
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: transform 0.15s, background 0.15s;
-  }
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
-  .btn-ghost {
-    padding: 12px 28px;
-    border: 1px solid var(--border);
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: background 0.15s, transform 0.15s;
-  }
-  .btn-ghost:hover { background: var(--accent-dim); transform: translateY(-1px); }
-
-  /* ── SHARED SECTION WRAPPER ── */
-  .section-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 6rem 3rem;
-  }
-  .section-label {
-    font-size: 11px;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-bottom: 0.5rem;
-  }
-  .section-title {
-    font-family: var(--sans);
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.1;
-    margin-bottom: 3rem;
-    letter-spacing: -0.02em;
-  }
-
-  /* ── ABOUT ── */
-  #about { border-top: 1px solid var(--border2); }
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-  .about-text p {
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-    line-height: 1.9;
-    font-size: 13px;
-  }
-  .certs-list { list-style: none; }
-  .certs-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border2);
-    font-size: 13px;
-  }
-  .cert-icon {
-    width: 32px; height: 32px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-  .cert-name { color: var(--text); font-size: 12px; font-weight: 700; }
-  .cert-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
-
-  /* ── ACHIEVEMENTS ── */
-  #achievements { border-top: 1px solid var(--border2); background: var(--bg2); }
-  .ach-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-  }
-  .ach-card {
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 2rem;
-    background: var(--bg3);
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .ach-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--accent);
-  }
-  .ach-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
-  .ach-number {
-    font-family: var(--sans);
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-  .ach-desc { color: var(--muted); font-size: 12px; line-height: 1.6; }
-
-  /* ── SKILLS ── */
-  #skills { border-top: 1px solid var(--border2); }
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-  .skill-card {
-    border: 1px solid var(--border2);
-    border-radius: 2px;
-    padding: 1.5rem;
-    background: var(--bg2);
-    transition: border-color 0.2s;
-  }
-  .skill-card:hover { border-color: var(--border); }
-  .skill-category {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag {
-    font-size: 11px;
-    padding: 3px 10px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--muted);
-    background: var(--bg3);
-  }
-
-  /* ── EXPERIENCE ── */
-  #experience { border-top: 1px solid var(--border2); background: var(--bg2); }
-  .timeline { position: relative; padding-left: 2rem; }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: var(--border);
-  }
-  .timeline-item {
-    position: relative;
-    margin-bottom: 3.5rem;
-    padding-left: 2rem;
-  }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -2.5rem;
-    top: 6px;
-    width: 10px; height: 10px;
-    border: 2px solid var(--accent);
-    background: var(--bg);
-    border-radius: 50%;
-  }
-  .timeline-item.active::before { background: var(--accent); }
-  .timeline-badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 10px;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    border-radius: 2px;
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.08em;
-  }
-  .timeline-role {
-    font-family: var(--sans);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.2rem;
-  }
-  .timeline-company {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-  .timeline-bullets { list-style: none; }
-  .timeline-bullets li {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 5px 0;
-    padding-left: 1.2rem;
-    position: relative;
-    line-height: 1.7;
-  }
-  .timeline-bullets li::before {
-    content: '>';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-family: var(--mono);
-  }
-
-  /* ── PROJECTS ── */
-  #projects { border-top: 1px solid var(--border2); }
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-  .project-card {
-    border: 1px solid var(--border2);
-    border-radius: 2px;
-    padding: 2rem;
-    background: var(--bg2);
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .project-num {
-    font-size: 10px;
-    color: var(--accent);
-    opacity: 0.4;
-    font-family: var(--sans);
-    font-weight: 800;
-    font-size: 3rem;
-    position: absolute;
-    top: 1rem; right: 1.5rem;
-    line-height: 1;
-  }
-  .project-badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 8px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    border-radius: 2px;
-    margin-bottom: 1rem;
-    letter-spacing: 0.06em;
-  }
-  .project-title {
-    font-family: var(--sans);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-  }
-  .project-desc {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1.2rem;
-  }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .project-tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--muted);
-  }
-
-  /* ── CONTACT ── */
-  #contact { border-top: 1px solid var(--border2); background: var(--bg2); }
-  .contact-inner {
-    display: flex;
-    align-items: flex-start;
-    gap: 6rem;
-  }
-  .contact-left { flex: 1; }
-  .contact-title {
-    font-family: var(--sans);
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-  .contact-title span { color: var(--accent); }
-  .contact-sub { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 400px; }
-  .contact-right { min-width: 280px; }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border2);
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 13px;
-    transition: color 0.2s;
-  }
-  .contact-link:hover { color: var(--accent); }
-  .contact-link-icon {
-    width: 36px; height: 36px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border2);
-    padding: 2rem 3rem;
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-    position: relative;
-    z-index: 1;
-  }
-  footer span { color: var(--accent); }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .section-wrap { padding: 4rem 1.5rem; }
-    #hero { padding: 6rem 1.5rem 3rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-stats { gap: 1.5rem; }
-    .contact-inner { flex-direction: column; gap: 2rem; }
-    .contact-right { min-width: auto; width: 100%; }
-  }
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">HR // Cloud Security Engineer</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-inner">
-    <div class="hero-tag">Open to Work</div>
-    <h1 class="hero-name">Harsh<br><span>Ranjan</span></h1>
-    <p class="hero-role" id="typed-role"><span class="cursor"></span></p>
-    <p class="hero-desc">
-      Securing production cloud environments at scale — embedding zero-trust security, 
-      secrets management, and shift-left practices into every layer of the DevOps pipeline 
-      across GCP, AWS, and hybrid infrastructures.
-    </p>
-    <div class="hero-stats">
-      <div>
-        <span class="stat-val">2+</span>
-        <span class="stat-label">Years Experience</span>
-      </div>
-      <div>
-        <span class="stat-val">800+</span>
-        <span class="stat-label">Microservices Secured</span>
-      </div>
-      <div>
-        <span class="stat-val">99.99%</span>
-        <span class="stat-label">SLA Maintained</span>
-      </div>
-      <div>
-        <span class="stat-val">95%</span>
-        <span class="stat-label">Credential Leakage Cut</span>
-      </div>
-    </div>
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Get in Touch</a>
-      <a href="#experience" class="btn-ghost">View Experience</a>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-wrap">
-    <p class="section-label">$ whoami</p>
-    <h2 class="section-title">About Me</h2>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>Cloud Security Engineer with 2+ years of hands-on experience securing and managing production cloud environments across GCP, AWS, and hybrid infrastructures.</p>
-        <p>Hands-on expertise in Identity & Access Management (IAM), Privileged Access Management (PAM), Web Application Security, Cloud Security Posture Management, Secrets Management, and Kubernetes Security.</p>
-        <p>I build security guardrails as code — policies, scanning rules, and firewall configs that engineering teams consume without slowing delivery velocity. Shift-left by default, continuously hardening by design.</p>
-        <p>B.Tech in Electronics & Telecommunication Engineering from VSSUT Burla (2020–2024). Currently serving notice period, available from 30th July 2026.</p>
-      </div>
-      <div class="reveal" style="transition-delay:0.15s">
-        <p style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem;">Certifications</p>
-        <ul class="certs-list">
-          <li>
-            <div class="cert-icon">☁</div>
-            <div>
-              <div class="cert-name">Google Cloud Certified</div>
-              <div class="cert-sub">Associate Cloud Engineer · Active till Aug 2027</div>
-            </div>
-          </li>
-          <li>
-            <div class="cert-icon">🔐</div>
-            <div>
-              <div class="cert-name">GCP Security Fundamentals</div>
-              <div class="cert-sub">Google Cloud Badge</div>
-            </div>
-          </li>
-          <li>
-            <div class="cert-icon">⚙</div>
-            <div>
-              <div class="cert-name">PCI-DSS Certified Application</div>
-              <div class="cert-sub">Access Portal — Production Deployment</div>
-            </div>
-          </li>
-        </ul>
-        <p style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin:2rem 0 1rem;">Education</p>
-        <div style="border:1px solid var(--border2);padding:1.2rem;border-radius:2px;background:var(--bg3);">
-          <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:4px;">B.Tech — Electronics & Telecom Engineering</div>
-          <div style="font-size:11px;color:var(--muted);">VSSUT Burla, Odisha · 2020 – 2024</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section id="achievements">
-  <div class="section-wrap">
-    <p class="section-label">$ cat achievements.log</p>
-    <h2 class="section-title">Key Achievements</h2>
-    <div class="ach-grid">
-      <div class="ach-card reveal">
-        <div class="ach-number">95%</div>
-        <div class="ach-desc">Reduction in credential leakage across 800+ microservices via pipeline-integrated secrets scanning</div>
-      </div>
-      <div class="ach-card reveal" style="transition-delay:.1s">
-        <div class="ach-number">10K+</div>
-        <div class="ach-desc">API endpoints secured with zero-trust architecture using Istio mTLS and GCP/AWS WAF</div>
-      </div>
-      <div class="ach-card reveal" style="transition-delay:.2s">
-        <div class="ach-number">30+</div>
-        <div class="ach-desc">Service accounts and VPC firewall policies managed under strict IAM/PAM governance frameworks</div>
-      </div>
-      <div class="ach-card reveal" style="transition-delay:.3s">
-        <div class="ach-number">50K+</div>
-        <div class="ach-desc">Daily requests handled at 99.99% availability across hybrid cloud production infrastructure</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-wrap">
-    <p class="section-label">$ ls skills/</p>
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <div class="skill-category">DevSecOps & Security</div>
-        <div class="skill-tags">
-          <span class="tag">Shift-Left Security</span><span class="tag">SSDLC</span><span class="tag">Trivy</span><span class="tag">Vulnerability Detection</span><span class="tag">Credential Scanning</span><span class="tag">PCI-DSS</span>
-        </div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.05s">
-        <div class="skill-category">Secrets & Identity</div>
-        <div class="skill-tags">
-          <span class="tag">HashiCorp Vault</span><span class="tag">GCP Secret Manager</span><span class="tag">AWS Secrets Manager</span><span class="tag">IAM</span><span class="tag">PAM</span>
-        </div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.1s">
-        <div class="skill-category">CI/CD & Containers</div>
-        <div class="skill-tags">
-          <span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Helm</span><span class="tag">Git</span><span class="tag">Pipeline Security Gates</span>
-        </div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.15s">
-        <div class="skill-category">Cloud Security Tools</div>
-        <div class="skill-tags">
-          <span class="tag">Google Cloud Armor</span><span class="tag">AWS WAF</span><span class="tag">AWS Shield</span><span class="tag">GCP SCC</span><span class="tag">Cloud IAM</span>
-        </div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.2s">
-        <div class="skill-category">Service Mesh & API</div>
-        <div class="skill-tags">
-          <span class="tag">Istio</span><span class="tag">Gloo</span><span class="tag">Apigee</span><span class="tag">mTLS</span><span class="tag">NGINX</span><span class="tag">Traffic Policies</span>
-        </div>
-      </div>
-      <div class="skill-card reveal" style="transition-delay:.25s">
-        <div class="skill-category">Scripting & Monitoring</div>
-        <div class="skill-tags">
-          <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">Node.js</span><span class="tag">CloudWatch</span><span class="tag">Grafana</span><span class="tag">RCA</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-wrap">
-    <p class="section-label">$ git log --oneline</p>
-    <h2 class="section-title">Experience</h2>
-    <div class="timeline">
-      <div class="timeline-item active reveal">
-        <span class="timeline-badge">CURRENT · FULL-TIME</span>
-        <div class="timeline-role">Cloud Security Engineer</div>
-        <div class="timeline-company">iServeU Technologies Pvt. Ltd. · Bhubaneswar · June 2024 – Present</div>
-        <ul class="timeline-bullets">
-          <li>Embedded security controls into CI/CD pipelines (Jenkins) — achieving 95% reduction in credential leakage across 800+ microservices via automated secrets scanning and policy enforcement gates.</li>
-          <li>Designed and enforced IAM/PAM frameworks for 30+ service accounts with least-privilege principles and VPC firewall policies governing inter-service communication.</li>
-          <li>Deployed Google Cloud Armor and AWS WAF/Shield as multi-layered perimeter security against DDoS, OWASP Top 10, and unauthorized traffic for 10,000+ API endpoints.</li>
-          <li>Built hybrid Kubernetes infrastructure (on-prem + GCP + AWS) with Istio mTLS, zero-trust inter-service communication, and enforced RBAC/network policies across microservices.</li>
-          <li>Managed secrets across multi-cloud using HashiCorp Vault and GCP/AWS Secret Manager — ensuring no hardcoded credentials in source or containers.</li>
-          <li>Conducted production incident RCA with security lens — patching vulnerabilities and implementing continuous hardening guardrails.</li>
-        </ul>
-      </div>
-      <div class="timeline-item reveal" style="transition-delay:.15s">
-        <span class="timeline-badge">INTERNSHIP</span>
-        <div class="timeline-role">Software Engineer Intern</div>
-        <div class="timeline-company">iServeU Technologies Pvt. Ltd. · Bhubaneswar · Dec 2023 – May 2024</div>
-        <ul class="timeline-bullets">
-          <li>Configured IAM roles, policies, and service account permissions across GCP and AWS — enforcing least-privilege access under senior guidance.</li>
-          <li>Deployed and managed NGINX as reverse proxy — configuring SSL termination, rate limiting, upstream routing, and access control rules.</li>
-          <li>Assisted in Kubernetes cluster operations: pod deployment, namespace management, service configuration, and resource quota enforcement.</li>
-          <li>Implemented and maintained firewall rules and VPC network policies across GCP and AWS to enforce network segmentation.</li>
-          <li>Integrated HashiCorp Vault for centralized secrets — configuring dynamic secrets, token auth, and access policies to eliminate hardcoded credentials.</li>
-          <li>Containerized workloads with Docker following security best practices; ran Trivy secret scanning on images and source repos.</li>
-          <li>Configured Google Cloud Armor WAF policies — security rules, bot management, and rate limiting against OWASP Top 10 threats.</li>
-          <li>Worked with GCP Secret Manager and AWS Secrets Manager for application-level secret injection and rotation procedures.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-wrap">
-    <p class="section-label">$ ls projects/</p>
-    <h2 class="section-title">Key Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <div class="project-num">01</div>
-        <div class="project-badge">PCI-DSS Certified · 2025–2026</div>
-        <div class="project-title">Access Portal — PAM & Secrets Management Platform</div>
-        <div class="project-desc">Full-stack user management portal with automated secret creation integrated with GCP & AWS Secret Manager. Features PAM approval workflows, audit log management, GCP PAM/IAM review functionalities, 2FA, and account lockout. Fully PCI-DSS compliant.</div>
-        <div class="project-tags">
-          <span class="project-tag">Kubernetes</span><span class="project-tag">Node.js</span><span class="project-tag">GCP Secret Manager</span><span class="project-tag">AWS Secrets Manager</span><span class="project-tag">IAM/PAM</span><span class="project-tag">PCI-DSS</span>
-        </div>
-      </div>
-      <div class="project-card reveal" style="transition-delay:.1s">
-        <div class="project-num">02</div>
-        <div class="project-badge">2024</div>
-        <div class="project-title">Shift-Left Security Pipeline Integration</div>
-        <div class="project-desc">Security automation embedded into CI/CD pipelines using Bash scripts, Trivy scanning, and Jenkins plugins. Automates SAST-style credential scanning and policy validation on every code commit — blocking insecure builds from progressing through the SDLC.</div>
-        <div class="project-tags">
-          <span class="project-tag">Jenkins</span><span class="project-tag">Trivy</span><span class="project-tag">Bash</span><span class="project-tag">GCP</span><span class="project-tag">AWS</span><span class="project-tag">SAST</span>
-        </div>
-      </div>
-      <div class="project-card reveal" style="transition-delay:.2s">
-        <div class="project-num">03</div>
-        <div class="project-badge">2023 – 2024</div>
-        <div class="project-title">Multi-Cloud Perimeter Security Architecture</div>
-        <div class="project-desc">Unified perimeter defence layer across GCP and AWS applying WAF rulesets, rate limiting, and geo-based access policies. Reduced attack surface across 50,000+ daily requests. Built with HashiCorp Vault for centralized secrets across environments.</div>
-        <div class="project-tags">
-          <span class="project-tag">Cloud Armor</span><span class="project-tag">AWS WAF/Shield</span><span class="project-tag">HashiCorp Vault</span><span class="project-tag">Zero-Trust</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-wrap">
-    <div class="contact-inner">
-      <div class="contact-left reveal">
-        <p class="section-label">$ ping harsh</p>
-        <h2 class="contact-title">Let's<br><span>Connect</span></h2>
-        <p class="contact-sub">Available for new roles from 30th July 2026. Open to 
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         , Cloud Security, Platform Engineering, and AWS/GCP infrastructure roles across India and remote opportunities.</p>
-      </div>
-      <div class="contact-right reveal" style="transition-delay:.15s">
-        <a href="mailto:harshranjan63@gmail.com" class="contact-link">
-          <div class="contact-link-icon">✉</div>
-          <div>
-            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Email</div>
-            <div>harshranjan63@gmail.com</div>
-          </div>
-        </a>
-        <a href="tel:+918249162133" class="contact-link">
-          <div class="contact-link-icon">📞</div>
-          <div>
-            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Phone</div>
-            <div>+91 8249162133</div>
-          </div>
-        </a>
-        <a href="https://linkedin.com/in/harshranjan63" target="_blank" class="contact-link">
-          <div class="contact-link-icon">in</div>
-          <div>
-            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">LinkedIn</div>
-            <div>linkedin.com/in/harshranjan63</div>
-          </div>
-        </a>
-        <a href="#" class="contact-link">
-          <div class="contact-link-icon">📍</div>
-          <div>
-            <div style="color:var(--text);font-size:12px;margin-bottom:2px;">Location</div>
-            <div>Bhubaneswar, India</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span>Harsh Ranjan</span> · DevSecOps Engineer · Built with purpose, secured by design.
-</footer>
-
-<script>
-  // ── TYPING ANIMATION ──
-  const roles = [
-    "DevSecOps Engineer",
-    "Cloud Security Engineer",
-    "Platform Engineer",
-    "GCP & AWS Specialist",
-  ];
-  let ri = 0, ci = 0, deleting = false;
-  const el = document.getElementById('typed-role');
-
-  function type() {
-    const current = roles[ri];
-    if (!deleting) {
-      el.innerHTML = current.slice(0, ci + 1) + '<span class="cursor"></span>';
-      ci++;
-      if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
-    } else {
-      el.innerHTML = current.slice(0, ci - 1) + '<span class="cursor"></span>';
-      ci--;
-      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harsh Ranjan — Cloud Security &amp; DevOps Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#050507',
+            surface: '#0e0e12',
+            surfaceLight: '#16161c',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg: #050507;
+      --surface: #0e0e12;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.2);
     }
-    setTimeout(type, deleting ? 45 : 80);
-  }
-  type();
 
-  // ── SCROLL REVEAL ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: #f4f4f5;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient cursor spotlight */
+    #ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(650px circle at var(--mx, 50%) var(--my, 20%), rgba(255, 255, 255, 0.055), transparent 60%);
+      transition: background 0.15s ease-out;
+    }
+
+    /* Subtle noise grid background */
+    .bg-grid {
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    /* Hero ghost outline text */
+    .ghost-text {
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.075);
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+
+    /* Glass card */
+    .glass-card {
+      background: linear-gradient(145deg, rgba(20, 20, 26, 0.85), rgba(10, 10, 14, 0.92));
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    /* Marquee animation */
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 28s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* 3D Lanyard ID Card */
+    .lanyard-scene {
+      perspective: 1200px;
+    }
+
+    .lanyard-pendulum {
+      transform-origin: top center;
+      will-change: transform;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .lanyard-pendulum:active {
+      cursor: grabbing;
+    }
+
+    .id-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .id-card-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .id-card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .id-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Periodic Table Tile */
+    .pt-tile {
+      position: relative;
+      background: rgba(16, 16, 22, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 8px;
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.25s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .pt-tile:hover,
+    .pt-tile.active {
+      transform: translateY(-3px) scale(1.03);
+      background: rgba(26, 26, 36, 0.98);
+      z-index: 2;
+    }
+
+    .pt-tile.dimmed {
+      opacity: 0.22;
+      transform: scale(0.97);
+    }
+
+    /* Category accents */
+    .cat-cloud { --accent: #60a5fa; }
+    .cat-security { --accent: #34d399; }
+    .cat-containers { --accent: #22d3ee; }
+    .cat-cicd { --accent: #fbbf24; }
+    .cat-networking { --accent: #c084fc; }
+    .cat-scripting { --accent: #fb7185; }
+
+    .pt-tile:hover,
+    .pt-tile.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 22px -6px var(--accent);
+    }
+
+    .pt-tile .pt-symbol {
+      color: var(--accent);
+    }
+
+    /* SVG Flow pulse animation */
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -36; }
+    }
+
+    .flow-line {
+      stroke-dasharray: 6 6;
+      animation: dashFlow 1.6s linear infinite;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #050507; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+  </style>
+</head>
+<body class="bg-obsidian text-zinc-100 selection:bg-white selection:text-black">
+  <div id="ambient-glow" aria-hidden="true"></div>
+
+  <!-- Hidden file input for live portrait upload -->
+  <input type="file" id="photo-upload-input" accept="image/*" class="hidden" aria-label="Upload your portrait photo" />
+
+  <!-- Floating Top Navigation -->
+  <header class="fixed top-0 inset-x-0 z-50 px-4 sm:px-6 pt-4 pointer-events-none">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 py-2.5 rounded-full bg-zinc-950/80 border border-white/10 backdrop-blur-xl shadow-2xl pointer-events-auto">
+      <!-- Brand -->
+      <a href="#hero" class="flex items-center gap-2.5 group shrink-0">
+        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-extrabold text-xs tracking-tight group-hover:scale-105 transition">
+          HR
+        </div>
+        <div class="leading-tight">
+          <div class="text-sm font-bold text-white tracking-tight">Harsh</div>
+          <div class="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Cloud Security</div>
+        </div>
+      </a>
+
+      <!-- Desktop Pill Nav -->
+      <div class="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-full p-1" id="desktop-nav">
+        <a href="#about" data-section="about" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">About</a>
+        <a href="#stack" data-section="stack" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Stack</a>
+        <a href="#experience" data-section="experience" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Experience</a>
+        <a href="#work" data-section="work" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Work</a>
+        <a href="#education" data-section="education" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Education</a>
+        <a href="#impact" data-section="impact" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Impact</a>
+        <a href="#contact" data-section="contact" class="nav-pill px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Contact</a>
+      </div>
+
+      <!-- Right CTA + Mobile Menu Button -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="nav-copy-email" type="button" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-black text-xs font-semibold hover:bg-zinc-200 transition">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+          <span>Email Me</span>
+        </button>
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" class="md:hidden p-2 rounded-full border border-white/10 text-zinc-300 hover:text-white hover:bg-white/5 transition">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden max-w-6xl mx-auto mt-2 p-3 rounded-2xl bg-zinc-950/95 border border-white/10 backdrop-blur-xl pointer-events-auto shadow-2xl">
+      <div class="grid grid-cols-2 gap-1.5">
+        <a href="#about" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">About</a>
+        <a href="#stack" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">Stack</a>
+        <a href="#experience" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">Experience</a>
+        <a href="#work" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">Work</a>
+        <a href="#education" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">Education</a>
+        <a href="#impact" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white">Impact</a>
+        <a href="#contact" class="mobile-nav-link px-3 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white col-span-2">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 bg-grid">
+    <!-- SECTION 1: HERO -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-28 pb-16 px-4 sm:px-6 overflow-hidden">
+      <!-- Massive Ghost Watermark -->
+      <div class="ghost-text absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] font-black leading-none whitespace-nowrap select-none" aria-hidden="true">
+        HARSH
+      </div>
+
+      <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10">
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Cloud Security &amp; DevSecOps Engineer
+          </div>
+
+          <h1 class="text-6xl sm:text-7xl lg:text-[6.25rem] font-black tracking-tighter text-white leading-[0.95]">
+            Harsh<span class="text-zinc-400">.</span>
+          </h1>
+
+          <p class="text-lg sm:text-xl text-zinc-400 max-w-xl leading-relaxed font-normal">
+            Securing cloud-native platforms.<br />
+            <span class="text-zinc-200 font-medium">Automating resilient infrastructure across GCP, AWS &amp; Kubernetes.</span>
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#work" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition shadow-lg shadow-white/5">
+              <span>Explore My Work</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.04] border border-white/15 text-white text-sm font-medium hover:bg-white/10 transition">
+              <span>Let's Connect</span>
+            </a>
+          </div>
+
+          <!-- Quick Proof Strip -->
+          <div class="pt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-zinc-500">
+            <span>2+ YRS PRODUCTION</span>
+            <span class="text-zinc-700">•</span>
+            <span>GCP ACE CERTIFIED</span>
+            <span class="text-zinc-700">•</span>
+            <span>800+ MICROSERVICES</span>
+            <span class="text-zinc-700">•</span>
+            <span>BHUBANESWAR, IN</span>
+          </div>
+        </div>
+
+        <!-- Right Hero Portrait Frame (Monochrome Architectural Silhouette + Live Photo Upload) -->
+        <div class="lg:col-span-5 flex flex-col items-center lg:items-end">
+          <div class="relative w-full max-w-sm aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-zinc-900/90 via-zinc-950 to-obsidian shadow-2xl group">
+            <!-- Ambient radial halo -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(255,255,255,0.14),transparent_65%)] pointer-events-none"></div>
+
+            <!-- Uploaded Photo Preview (Hidden until user uploads) -->
+            <img id="hero-photo-img" src="" alt="Harsh Ranjan portrait" class="hidden w-full h-full object-cover object-top grayscale contrast-110 transition duration-500 group-hover:grayscale-0" />
+
+            <!-- Default Monochrome Vector Emblem (No AI face) -->
+            <div id="hero-default-art" class="w-full h-full flex flex-col items-center justify-center p-8 relative">
+              <svg viewBox="0 0 260 320" class="w-full h-full opacity-90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="shieldGrad" x1="130" y1="30" x2="130" y2="275" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+                  </linearGradient>
+                </defs>
+                <!-- Concentric Radar Rings -->
+                <circle cx="130" cy="145" r="105" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 6" />
+                <circle cx="130" cy="145" r="78" stroke="rgba(255,255,255,0.10)" stroke-width="1" />
+                <!-- Security Shield Silhouette -->
+                <path d="M130 42L204 72V144C204 196 172 240 130 262C88 240 56 196 56 144V72L130 42Z" fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
+                <!-- Inner Monogram -->
+                <text x="130" y="162" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-size="60" letter-spacing="-3">HR</text>
+                <text x="130" y="192" text-anchor="middle" fill="#a1a1aa" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="3">SEC · CLOUD · K8S</text>
+              </svg>
+            </div>
+
+            <!-- Bottom Vignette + Upload Photo Action -->
+            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-obsidian via-obsidian/90 to-transparent flex items-center justify-between gap-3">
+              <div>
+                <div class="text-xs font-semibold text-white">Harsh Ranjan</div>
+                <div class="text-[11px] font-mono text-zinc-400">iServeU Technologies</div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" class="trigger-photo-upload inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-[11px] font-medium text-white backdrop-blur transition">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                  <span>Add Photo</span>
+                </button>
+                <button id="reset-photo-btn" type="button" class="hidden p-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-zinc-300 transition" title="Reset to monogram">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT + INTERACTIVE HANGING 3D LANYARD ID CARD -->
+    <section id="about" class="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Left Bio & Focus Grid -->
+        <div class="lg:col-span-7 space-y-8 reveal">
+          <div class="space-y-3">
+            <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">01 / About</div>
+            <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+              Hi, I'm Harsh<span class="text-zinc-500">.</span>
+            </h2>
+            <p class="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-xl">
+              I'm a Cloud Security &amp; DevOps Engineer with <span class="text-zinc-200 font-medium">2+ years of production experience</span> securing, automating, and scaling mission-critical fintech infrastructure across <span class="text-zinc-200 font-medium">GCP, AWS, and hybrid Kubernetes</span> environments.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-500">What I Focus On</div>
+            <div class="grid sm:grid-cols-2 gap-3.5">
+              <div class="glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Cloud Security &amp; IAM/PAM</h3>
+                  <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Least-privilege governance for 30+ service accounts, HashiCorp Vault &amp; PCI-DSS compliance.</p>
+                </div>
+              </div>
+
+              <div class="glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0 text-cyan-400">
+                  <i data-lucide="boxes" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Kubernetes &amp; Service Mesh</h3>
+                  <p class="text-xs text-zinc-400 mt-1 leading-relaxed">GKE, EKS &amp; on-prem clusters running 800+ microservices with Istio, Gloo &amp; Apigee.</p>
+                </div>
+              </div>
+
+              <div class="glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 text-amber-400">
+                  <i data-lucide="git-branch" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Shift-Left DevSecOps CI/CD</h3>
+                  <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Jenkins security gates &amp; Trivy scanning cutting credential leakage by 95%.</p>
+                </div>
+              </div>
+
+              <div class="glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0 text-purple-400">
+                  <i data-lucide="radar" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Perimeter Defense &amp; RCA</h3>
+                  <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Google Cloud Armor &amp; AWS WAF/Shield defending 50,000+ daily requests at 99.99% uptime.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Interactive Hanging Lanyard ID Card -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center reveal">
+          <div class="lanyard-scene relative flex flex-col items-center pt-2 pb-4 w-full max-w-[300px]">
+            <!-- Ceiling anchor pin -->
+            <div class="w-3 h-3 rounded-full bg-zinc-700 border border-zinc-500 shadow"></div>
+
+            <!-- Swinging Pendulum Assembly -->
+            <div id="lanyard-pendulum" class="lanyard-pendulum flex flex-col items-center -mt-1">
+              <!-- Lanyard Fabric Strap -->
+              <div class="w-6 h-20 bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 border-x border-white/10 flex flex-col items-center justify-center relative shadow-inner">
+                <span class="text-[7px] font-mono tracking-[0.25em] text-zinc-500 -rotate-90 whitespace-nowrap">ISERVEU · SEC</span>
+              </div>
+              <!-- Metallic Clip -->
+              <div class="w-9 h-5 rounded-md bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-700 border border-zinc-400 -mt-1 z-10 shadow-md flex items-center justify-center">
+                <div class="w-4 h-1.5 rounded-full bg-zinc-900"></div>
+              </div>
+
+              <!-- Flippable 3D Badge Card -->
+              <div id="lanyard-card-wrap" class="w-[264px] h-[360px] -mt-1.5 relative">
+                <div id="id-card-inner" class="id-card-inner">
+                  <!-- FRONT FACE -->
+                  <div class="id-card-face bg-gradient-to-b from-[#f8f9fa] to-[#e4e4e7] text-zinc-950 p-5 flex flex-col justify-between shadow-2xl border border-white/40">
+                    <!-- Punch slot -->
+                    <div class="flex flex-col items-center">
+                      <div class="w-12 h-2 rounded-full bg-zinc-900/20 mb-4"></div>
+                      <div class="w-full flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-3">
+                        <span>ACCESS PASS</span>
+                        <span class="font-bold text-zinc-800">ID #HR-2026</span>
+                      </div>
+                      <!-- Photo / Monogram Box -->
+                      <div class="w-28 h-28 rounded-2xl overflow-hidden bg-zinc-900 border-2 border-zinc-300 shadow-inner flex items-center justify-center relative">
+                        <img id="badge-photo-img" src="" alt="Harsh Ranjan badge photo" class="hidden w-full h-full object-cover object-top" />
+                        <div id="badge-default-art" class="flex flex-col items-center justify-center text-white">
+                          <span class="text-3xl font-black tracking-tighter">HR</span>
+                          <span class="text-[8px] font-mono uppercase tracking-widest text-zinc-400 mt-0.5">VERIFIED</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center space-y-1">
+                      <div class="text-xl font-black tracking-tight text-zinc-950">Harsh Ranjan</div>
+                      <div class="text-xs font-semibold text-zinc-600">Cloud Security Engineer</div>
+                      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-900 text-white text-[10px] font-mono mt-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        iServeU Technologies
+                      </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-zinc-300 flex items-center justify-between text-[10px] font-mono text-zinc-600">
+                      <span>BHUBANESWAR, IN</span>
+                      <span class="font-bold text-zinc-900">GCP ACE</span>
+                    </div>
+                  </div>
+
+                  <!-- BACK FACE -->
+                  <div class="id-card-face id-card-back bg-gradient-to-b from-zinc-900 to-obsidian text-zinc-100 p-5 flex flex-col justify-between shadow-2xl border border-white/15">
+                    <div>
+                      <div class="w-12 h-2 rounded-full bg-white/10 mx-auto mb-4"></div>
+                      <div class="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-zinc-400 pb-3 border-b border-white/10">
+                        <span>CLEARANCE PROFILE</span>
+                        <span class="text-emerald-400">● ACTIVE</span>
+                      </div>
+
+                      <div class="mt-4 space-y-3 text-xs">
+                        <div>
+                          <div class="text-[10px] font-mono text-zinc-500 uppercase">Certification</div>
+                          <div class="font-semibold text-white mt-0.5">Google Cloud Associate Cloud Engineer</div>
+                          <div class="text-[10px] text-zinc-400">Valid through Aug 2027</div>
+                        </div>
+                        <div>
+                          <div class="text-[10px] font-mono text-zinc-500 uppercase">Core Domain</div>
+                          <div class="text-zinc-300 mt-0.5">DevSecOps · IAM/PAM · K8s · WAF</div>
+                        </div>
+                        <div>
+                          <div class="text-[10px] font-mono text-zinc-500 uppercase">Compliance</div>
+                          <div class="text-zinc-300 mt-0.5">PCI-DSS Certified Access Portal</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-zinc-400">
+                      <span>harshranjan63@gmail.com</span>
+                      <span class="text-white">↻ FLIP</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Controls Caption -->
+            <div class="mt-5 flex items-center gap-3 text-[11px] font-mono text-zinc-500">
+              <span>Drag to swing</span>
+              <span>·</span>
+              <button id="flip-badge-btn" type="button" class="text-zinc-300 hover:text-white underline underline-offset-4 transition">Click badge to flip</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KINETIC MARQUEE TICKER -->
+    <div class="py-5 border-y border-white/[0.08] bg-white/[0.02] overflow-hidden">
+      <div class="marquee-track flex items-center gap-8 text-lg sm:text-2xl font-bold tracking-tight text-zinc-300">
+        <span>Cloud Security &amp; DevSecOps</span><span class="text-zinc-600">✦</span>
+        <span>Kubernetes &amp; GKE / EKS</span><span class="text-zinc-600">✦</span>
+        <span>Zero-Trust Perimeter Defense</span><span class="text-zinc-600">✦</span>
+        <span>API Gateway &amp; Service Mesh</span><span class="text-zinc-600">✦</span>
+        <span>IAM / PAM &amp; Secrets Governance</span><span class="text-zinc-600">✦</span>
+        <span>Shift-Left CI/CD Pipelines</span><span class="text-zinc-600">✦</span>
+        <!-- Duplicate for seamless loop -->
+        <span>Cloud Security &amp; DevSecOps</span><span class="text-zinc-600">✦</span>
+        <span>Kubernetes &amp; GKE / EKS</span><span class="text-zinc-600">✦</span>
+        <span>Zero-Trust Perimeter Defense</span><span class="text-zinc-600">✦</span>
+        <span>API Gateway &amp; Service Mesh</span><span class="text-zinc-600">✦</span>
+        <span>IAM / PAM &amp; Secrets Governance</span><span class="text-zinc-600">✦</span>
+        <span>Shift-Left CI/CD Pipelines</span><span class="text-zinc-600">✦</span>
+      </div>
+    </div>
+
+    <!-- SECTION 3: THE PERIODIC TABLE OF MY STACK -->
+    <section id="stack" class="py-24 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto space-y-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 reveal">
+          <div class="space-y-3">
+            <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">02 / Technical Stack</div>
+            <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+              The periodic table of my<br class="hidden sm:block" /> stack<span class="text-zinc-500">.</span>
+            </h2>
+          </div>
+          <p class="text-sm text-zinc-400 max-w-sm">
+            Select a category or click any element to inspect how I apply it across production cloud and security systems.
+          </p>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap items-center gap-2 reveal" id="stack-filters">
+          <button type="button" data-cat="all" class="stack-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-black transition">All (24)</button>
+          <button type="button" data-cat="cloud" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-blue-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-blue-400"></span>Cloud
+          </button>
+          <button type="button" data-cat="security" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-emerald-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>Security &amp; IAM
+          </button>
+          <button type="button" data-cat="containers" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-cyan-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>Containers
+          </button>
+          <button type="button" data-cat="cicd" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-amber-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>CI/CD &amp; IaC
+          </button>
+          <button type="button" data-cat="networking" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-purple-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span>Mesh &amp; Gateway
+          </button>
+          <button type="button" data-cat="scripting" class="stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-rose-400/60 transition">
+            <span class="w-2 h-2 rounded-full bg-rose-400"></span>Code &amp; Observability
+          </button>
+        </div>
+
+        <!-- Periodic Grid + Right Element Inspector -->
+        <div class="grid lg:grid-cols-12 gap-6 items-start reveal">
+          <!-- 24-Element Periodic Table -->
+          <div id="periodic-grid" class="lg:col-span-8 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Element Inspector Card -->
+          <div class="lg:col-span-4 glass-card rounded-3xl p-6 space-y-5 lg:sticky lg:top-24" id="element-inspector">
+            <div class="flex items-start justify-between gap-4">
+              <div id="insp-tile" class="w-20 h-20 rounded-2xl border flex flex-col justify-between p-2.5 bg-zinc-950/90">
+                <span id="insp-num" class="text-[10px] font-mono text-zinc-500">01</span>
+                <span id="insp-sym" class="text-3xl font-black leading-none">Gc</span>
+              </div>
+              <span id="insp-cat" class="px-2.5 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider bg-white/[0.05] border border-white/10 text-zinc-300">Cloud</span>
+            </div>
+
+            <div>
+              <h3 id="insp-name" class="text-2xl font-bold text-white tracking-tight">Google Cloud Platform</h3>
+              <p id="insp-role" class="text-xs font-mono text-zinc-400 mt-1">Primary Cloud Environment · ACE Certified</p>
+            </div>
+
+            <p id="insp-desc" class="text-sm text-zinc-300 leading-relaxed">
+              Designing and operating production fintech workloads on GKE, Cloud Armor, Secret Manager, VPC, Cloud IAM, and Security Command Center.
+            </p>
+
+            <div class="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono">
+              <span class="text-zinc-500">PRODUCTION IMPACT</span>
+              <span id="insp-metric" class="text-white font-semibold">50K+ daily req</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PROFESSIONAL EXPERIENCE (STICKY YEAR COUNTER) -->
+    <section id="experience" class="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto space-y-12">
+        <div class="space-y-3 reveal">
+          <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">03 / Experience</div>
+          <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+            Professional experience<span class="text-zinc-500">.</span>
+          </h2>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-10 items-start">
+          <!-- Sticky Oversized Year Column -->
+          <div class="lg:col-span-4 lg:sticky lg:top-28 space-y-4 reveal">
+            <div id="sticky-year" class="text-7xl sm:text-8xl font-black tracking-tighter text-white leading-none transition-all duration-300">
+              2024
+            </div>
+            <div id="sticky-period" class="text-xs font-mono uppercase tracking-widest text-zinc-400">
+              June 2024 — Present
+            </div>
+            <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] space-y-1.5">
+              <div class="text-sm font-semibold text-white">iServeU Technologies Pvt. Ltd.</div>
+              <div class="text-xs text-zinc-400">Fintech / Payments · Bhubaneswar, India</div>
+              <div class="text-[11px] font-mono text-emerald-400 pt-1">~2.5+ Years Total Tenure</div>
+            </div>
+
+            <!-- Quick Role Switcher Pills -->
+            <div class="flex items-center gap-2 pt-2">
+              <button type="button" data-year-jump="2024" class="year-jump-btn px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold transition">2024–Present</button>
+              <button type="button" data-year-jump="2023" class="year-jump-btn px-3 py-1.5 rounded-full text-xs font-mono bg-white/[0.05] border border-white/10 text-zinc-400 hover:text-white transition">2023–2024</button>
+            </div>
+          </div>
+
+          <!-- Right Timeline Cards -->
+          <div class="lg:col-span-8 space-y-10 relative before:hidden sm:before:block before:absolute before:left-3 before:top-3 before:bottom-3 before:w-px before:bg-white/10">
+            <!-- Role 1 -->
+            <article id="role-2024" data-year="2024" data-period="June 2024 — Present" class="exp-block sm:pl-10 relative reveal">
+              <div class="hidden sm:flex absolute left-0 top-2 w-6 h-6 rounded-full bg-obsidian border-2 border-white items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-white"></div>
+              </div>
+
+              <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="flex flex-wrap items-start justify-between gap-3 pb-5 border-b border-white/[0.08]">
+                  <div>
+                    <h3 class="text-2xl font-bold text-white tracking-tight">Cloud Security Engineer</h3>
+                    <p class="text-sm text-zinc-400 mt-1">DevOps &amp; Cloud Infrastructure · iServeU Technologies Pvt. Ltd.</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">Jun 2024 – Present</span>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">Shift-Left CI/CD Security Gates</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">95% ↓ Leakage · 800+ Services</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Embedded automated Trivy secret scanning, credential validation, and policy enforcement gates into Jenkins CI/CD pipelines across 800+ microservices without slowing release velocity.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">API Gateway &amp; Service Mesh Operations</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">10,000+ APIs · 99.99% Uptime</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Administered Apigee, Istio, Gloo, and NGINX with mTLS, rate limiting, OAuth flows, and canary routing—delivering a 25% latency reduction with zero SLA breaches.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">Multi-Cloud Perimeter &amp; IAM/PAM Governance</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">50K+ Daily Req · 30+ SAs</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Deployed Google Cloud Armor and AWS WAF/Shield against DDoS and OWASP Top 10 threats; enforced least-privilege IAM/PAM access controls and VPC firewall policies across GCP and AWS.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">Hybrid Kubernetes, Secrets &amp; Production RCA</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">GKE · EKS · On-Prem</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Configured Kubernetes RBAC, Network Policies, and Pod Security Standards; eliminated hardcoded credentials via HashiCorp Vault and GCP/AWS Secret Manager; led on-call production RCAs using CloudWatch and Grafana.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Role 2 -->
+            <article id="role-2023" data-year="2023" data-period="Dec 2023 — May 2024" class="exp-block sm:pl-10 relative reveal">
+              <div class="hidden sm:flex absolute left-0 top-2 w-6 h-6 rounded-full bg-obsidian border-2 border-zinc-500 items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-zinc-400"></div>
+              </div>
+
+              <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="flex flex-wrap items-start justify-between gap-3 pb-5 border-b border-white/[0.08]">
+                  <div>
+                    <h3 class="text-2xl font-bold text-white tracking-tight">Software Engineer Intern</h3>
+                    <p class="text-sm text-zinc-400 mt-1">Cloud &amp; Infrastructure · iServeU Technologies Pvt. Ltd.</p>
+                  </div>
+                  <span class="px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-zinc-300 text-xs font-mono">Dec 2023 – May 2024</span>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">Container Hardening &amp; Kubernetes Operations</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">Docker · Non-Root</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Containerized production applications with minimal base images, non-root users, and layer hardening; assisted with pod deployments, namespaces, and resource quotas.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">NGINX Reverse Proxy &amp; Cloud Armor WAF</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">SSL · Rate Limiting</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Managed NGINX upstream routing, SSL termination, and access control rules alongside Google Cloud Armor bot management and VPC network segmentation.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-white/15 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <h4 class="text-sm font-semibold text-white">Centralized Secrets &amp; Shift-Left Scanning</h4>
+                      <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">Vault · Trivy</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                      Integrated HashiCorp Vault dynamic secrets, GCP/AWS Secret Manager retrieval workflows, and Trivy secret scanning on Docker images and source repositories.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: THINGS I'VE BUILT (WITH INTERACTIVE ARCHITECTURE DIAGRAMS) -->
+    <section id="work" class="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto space-y-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 reveal">
+          <div class="space-y-3">
+            <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">04 / Selected Work</div>
+            <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+              Things I've built<span class="text-zinc-500">.</span>
+            </h2>
+          </div>
+
+          <!-- Project Selector Tabs -->
+          <div class="flex flex-wrap gap-2" id="project-tabs">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Featured Interactive Project Card -->
+        <div id="project-stage" class="glass-card rounded-3xl p-6 sm:p-10 grid lg:grid-cols-12 gap-8 items-center reveal">
+          <!-- Left Project Details -->
+          <div class="lg:col-span-6 space-y-5">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <span id="proj-year" class="px-2.5 py-1 rounded-full bg-white/10 text-[11px] font-mono text-zinc-200">2024 – 2026</span>
+              <span id="proj-badge" class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">PCI-DSS Certified</span>
+            </div>
+
+            <h3 id="proj-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+              Access Portal — PAM &amp; Secrets Management Platform
+            </h3>
+
+            <p id="proj-desc" class="text-sm sm:text-base text-zinc-400 leading-relaxed">
+              Containerized user and secrets management portal automating secret creation, PAM approval workflows, and compliance audit logging across GCP and AWS.
+            </p>
+
+            <ul id="proj-bullets" class="space-y-2.5 text-sm text-zinc-300">
+              <!-- Rendered by JS -->
+            </ul>
+
+            <div id="proj-tags" class="flex flex-wrap gap-2 pt-2">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Right Interactive Architecture Diagram -->
+          <div class="lg:col-span-6">
+            <div class="rounded-2xl bg-obsidian/90 border border-white/10 p-5 sm:p-6 relative overflow-hidden">
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">System Architecture Flow</span>
+                <span class="inline-flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>LIVE FLOW
+                </span>
+              </div>
+              <div id="proj-diagram" class="w-full">
+                <!-- Dynamic SVG rendered by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: ALWAYS LEARNING (EDUCATION & CERTIFICATIONS) -->
+    <section id="education" class="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto space-y-10">
+        <div class="space-y-3 reveal">
+          <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">05 / Education &amp; Credentials</div>
+          <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+            Always learning<span class="text-zinc-500">.</span>
+          </h2>
+        </div>
+
+        <!-- Primary Degree Card (Inspired by IIT BHU Card in Reference) -->
+        <div class="glass-card rounded-3xl p-7 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8 reveal">
+          <div class="space-y-3">
+            <div class="inline-flex items-center gap-2 text-xs font-mono text-zinc-400">
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-white"></i>
+              <span>2020 — 2024 · BURLA, ODISHA, INDIA</span>
+            </div>
+            <h3 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Veer Surendra Sai University of Technology (VSSUT)
+            </h3>
+            <p class="text-sm sm:text-base text-zinc-400">
+              Bachelor of Technology (B.Tech) — <span class="text-zinc-200 font-medium">Electronics &amp; Telecommunication Engineering</span>
+            </p>
+          </div>
+
+          <!-- Circular Credential Ring -->
+          <div class="shrink-0 flex items-center justify-center">
+            <div class="relative w-28 h-28 flex items-center justify-center">
+              <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,0.08)" stroke-width="5" fill="none" />
+                <circle cx="50" cy="50" r="42" stroke="#ffffff" stroke-width="5" fill="none" stroke-dasharray="264" stroke-dashoffset="36" stroke-linecap="round" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span class="text-lg font-black text-white leading-none">B.Tech</span>
+                <span class="text-[10px] font-mono text-zinc-400 mt-1">CLASS '24</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications Row -->
+        <div class="grid md:grid-cols-2 gap-4 reveal">
+          <div class="glass-card rounded-2xl p-6 flex items-start justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-1.5 text-[11px] font-mono text-blue-400 uppercase tracking-wider">
+                <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                Google Cloud Certified
+              </div>
+              <h4 class="text-lg font-bold text-white">Associate Cloud Engineer</h4>
+              <p class="text-xs text-zinc-400">Verified cloud infrastructure, GKE, IAM, and deployment credential.</p>
+            </div>
+            <span class="shrink-0 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[10px] font-mono">
+              Active · Aug 2027
+            </span>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 flex items-start justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 uppercase tracking-wider">
+                <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                Google Cloud Badge
+              </div>
+              <h4 class="text-lg font-bold text-white">Google Cloud Security Fundamentals</h4>
+              <p class="text-xs text-zinc-400">Core cloud defense-in-depth, zero-trust, and security posture foundations.</p>
+            </div>
+            <span class="shrink-0 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-zinc-300 text-[10px] font-mono">
+              Verified
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: PROUD MOMENTS (IMPACT BENTO GRID) -->
+    <section id="impact" class="py-24 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto space-y-10">
+        <div class="space-y-3 reveal">
+          <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">06 / Impact</div>
+          <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+            Proud moments<span class="text-zinc-500">.</span>
+          </h2>
+        </div>
+
+        <!-- Asymmetric Bento Grid -->
+        <div class="grid md:grid-cols-12 gap-4 reveal">
+          <!-- Hero Stat Card (Left, spans 5 cols & 2 rows) -->
+          <div class="md:col-span-5 md:row-span-2 glass-card rounded-3xl p-8 flex flex-col justify-between min-h-[260px] bg-gradient-to-br from-zinc-900/90 to-obsidian">
+            <div class="text-xs font-mono uppercase tracking-widest text-zinc-500">CI/CD Security Automation</div>
+            <div class="my-6">
+              <div class="text-7xl sm:text-8xl font-black tracking-tighter text-white leading-none">
+                <span class="kpi-counter" data-target="95" data-suffix="%">95%</span>
+              </div>
+              <p class="text-sm sm:text-base text-zinc-300 font-medium mt-4">
+                Reduction in credential leakage across 800+ microservices
+              </p>
+              <p class="text-xs text-zinc-500 mt-2 leading-relaxed">
+                Achieved by embedding automated Trivy secret scanning and shift-left policy gates into Jenkins pipelines.
+              </p>
+            </div>
+            <div class="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+              <div class="h-full w-[95%] bg-gradient-to-r from-emerald-400 to-white rounded-full"></div>
+            </div>
+          </div>
+
+          <!-- Top Middle -->
+          <div class="md:col-span-4 glass-card rounded-3xl p-6 flex flex-col justify-between">
+            <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500">Platform Reliability</div>
+            <div class="mt-4">
+              <div class="text-4xl sm:text-5xl font-black tracking-tight text-white">99.99%</div>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Production availability across 10,000+ API endpoints with zero SLA breaches.</p>
+            </div>
+          </div>
+
+          <!-- Top Right -->
+          <div class="md:col-span-3 glass-card rounded-3xl p-6 flex flex-col justify-between">
+            <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500">Gateway Speed</div>
+            <div class="mt-4">
+              <div class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+                <span class="kpi-counter" data-target="25" data-suffix="%">25%</span>
+              </div>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Latency reduction via Apigee, Istio &amp; Gloo routing optimization.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Middle -->
+          <div class="md:col-span-4 glass-card rounded-3xl p-6 flex flex-col justify-between">
+            <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500">Multi-Cloud Scale</div>
+            <div class="mt-4">
+              <div class="text-4xl sm:text-5xl font-black tracking-tight text-white">
+                <span class="kpi-counter" data-target="50" data-suffix="K+">50K+</span>
+              </div>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Daily fintech requests protected by Cloud Armor &amp; AWS WAF/Shield.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Right -->
+          <div class="md:col-span-3 glass-card rounded-3xl p-6 flex flex-col justify-between">
+            <div class="text-[11px] font-mono uppercase tracking-widest text-zinc-500">Governance</div>
+            <div class="mt-4">
+              <div class="text-3xl sm:text-4xl font-black tracking-tight text-white">PCI-DSS</div>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Certified Access Portal &amp; least-privilege IAM/PAM for 30+ service accounts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: CONTACT & FOOTER -->
+    <section id="contact" class="py-28 px-4 sm:px-6 border-t border-white/[0.06]">
+      <div class="max-w-6xl mx-auto space-y-12 reveal">
+        <div class="space-y-5 max-w-3xl">
+          <div class="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500">07 / Contact</div>
+          <h2 class="text-4xl sm:text-6xl font-black tracking-tighter text-white leading-[1.03]">
+            Have an interesting<br />problem to solve<span class="text-zinc-500">?</span>
+          </h2>
+          <p class="text-base sm:text-lg text-zinc-400">
+            Let's build something resilient, scalable, and secure.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button id="open-contact-modal" type="button" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-200 transition">
+              <span>Drop me a line</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </button>
+            <button id="copy-email-btn" type="button" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/15 text-sm font-medium text-white hover:bg-white/10 transition">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>harshranjan63@gmail.com</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contact Cards Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <a href="https://linkedin.com/in/harshranjan63" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group">
+            <div>
+              <div class="text-sm font-bold text-white">LinkedIn</div>
+              <div class="text-xs text-zinc-400 mt-0.5">/in/harshranjan63</div>
+            </div>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </a>
+
+          <a href="https://harshranjan63.github.io" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group">
+            <div>
+              <div class="text-sm font-bold text-white">GitHub Portfolio</div>
+              <div class="text-xs text-zinc-400 mt-0.5">harshranjan63.github.io</div>
+            </div>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </a>
+
+          <button id="copy-phone-btn" type="button" class="glass-card rounded-2xl p-5 flex items-center justify-between text-left group">
+            <div>
+              <div class="text-sm font-bold text-white">Phone</div>
+              <div class="text-xs text-zinc-400 mt-0.5">+91 8249162133</div>
+            </div>
+            <i data-lucide="copy" class="w-4 h-4 text-zinc-500 group-hover:text-white transition"></i>
+          </button>
+
+          <div class="glass-card rounded-2xl p-5 flex items-center justify-between">
+            <div>
+              <div class="text-sm font-bold text-white">Location</div>
+              <div class="text-xs text-zinc-400 mt-0.5">Bhubaneswar, India</div>
+            </div>
+            <i data-lucide="map-pin" class="w-4 h-4 text-zinc-500"></i>
+          </div>
+        </div>
+
+        <!-- Signature Footer -->
+        <footer class="pt-12 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+          <div class="text-5xl font-black tracking-tighter text-white">
+            Harsh<span class="text-zinc-500">.</span>
+          </div>
+          <div class="text-xs font-mono text-zinc-500">
+            © 2026 Harsh Ranjan · Cloud Security &amp; DevOps Engineer
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <!-- In-Page Contact Modal (No alert/prompt) -->
+  <div id="contact-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md rounded-3xl bg-zinc-950 border border-white/15 p-6 sm:p-7 shadow-2xl space-y-5 relative">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-xl font-bold text-white">Drop Harsh a line</h3>
+          <p class="text-xs text-zinc-400 mt-0.5">Compose a quick message or open directly in your mail app.</p>
+        </div>
+        <button id="close-contact-modal" type="button" aria-label="Close modal" class="p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="contact-form" class="space-y-3.5">
+        <div>
+          <label for="msg-name" class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Your Name</label>
+          <input id="msg-name" type="text" required placeholder="Alex Rivera" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-white/40" />
+        </div>
+        <div>
+          <label for="msg-email" class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Your Email</label>
+          <input id="msg-email" type="email" required placeholder="alex@company.com" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-white/40" />
+        </div>
+        <div>
+          <label for="msg-body" class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Message</label>
+          <textarea id="msg-body" rows="3" required placeholder="Let's talk about Cloud Security or DevSecOps roles..." class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-white/40 resize-none"></textarea>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" id="cancel-contact-modal" class="px-4 py-2 rounded-full text-xs font-medium text-zinc-400 hover:text-white transition">Cancel</button>
+          <button type="submit" class="px-5 py-2.5 rounded-full bg-white text-black text-xs font-bold hover:bg-zinc-200 transition">Prepare Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 translate-y-16 opacity-0 pointer-events-none transition-all duration-300 px-4 py-2.5 rounded-full bg-white text-black text-xs font-semibold shadow-2xl flex items-center gap-2">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+    <span id="toast-text">Copied to clipboard</span>
+  </div>
+
+  <script>
+    (function () {
+      // Initialize Lucide icons
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      // 1. Ambient Mouse Spotlight
+      const glow = document.getElementById('ambient-glow');
+      window.addEventListener('pointermove', (e) => {
+        if (!glow) return;
+        glow.style.setProperty('--mx', e.clientX + 'px');
+        glow.style.setProperty('--my', e.clientY + 'px');
+      }, { passive: true });
+
+      // 2. Toast helper & safe Clipboard Copy
+      let toastTimer = null;
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const txt = document.getElementById('toast-text');
+        if (!toast || !txt) return;
+        txt.textContent = msg;
+        toast.classList.remove('translate-y-16', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.add('translate-y-16', 'opacity-0');
+          toast.classList.remove('translate-y-0', 'opacity-100');
+        }, 2600);
+      }
+
+      function copyText(text, label) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => showToast(label + ' copied!')).catch(() => fallbackCopy(text, label));
+        } else {
+          fallbackCopy(text, label);
+        }
+      }
+
+      function fallbackCopy(text, label) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast(label + ' copied!');
+        } catch (err) {
+          showToast('Email: ' + text);
+        }
+        document.body.removeChild(ta);
+      }
+
+      // 3. Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+        mobileMenu.querySelectorAll('.mobile-nav-link').forEach((link) => {
+          link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+      }
+
+      // 4. Live Photo Upload (syncs Hero + Lanyard Badge, no AI portrait)
+      const uploadInput = document.getElementById('photo-upload-input');
+      const heroImg = document.getElementById('hero-photo-img');
+      const heroArt = document.getElementById('hero-default-art');
+      const badgeImg = document.getElementById('badge-photo-img');
+      const badgeArt = document.getElementById('badge-default-art');
+      const resetPhotoBtn = document.getElementById('reset-photo-btn');
+
+      document.querySelectorAll('.trigger-photo-upload').forEach((btn) => {
+        btn.addEventListener('click', () => uploadInput && uploadInput.click());
+      });
+
+      if (uploadInput) {
+        uploadInput.addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const dataUrl = ev.target.result;
+            [heroImg, badgeImg].forEach((img) => {
+              if (img) {
+                img.src = dataUrl;
+                img.classList.remove('hidden');
+              }
+            });
+            [heroArt, badgeArt].forEach((el) => el && el.classList.add('hidden'));
+            if (resetPhotoBtn) resetPhotoBtn.classList.remove('hidden');
+            showToast('Photo applied to Hero & ID Badge!');
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (resetPhotoBtn) {
+        resetPhotoBtn.addEventListener('click', () => {
+          [heroImg, badgeImg].forEach((img) => {
+            if (img) {
+              img.src = '';
+              img.classList.add('hidden');
+            }
+          });
+          [heroArt, badgeArt].forEach((el) => el && el.classList.remove('hidden'));
+          resetPhotoBtn.classList.add('hidden');
+          if (uploadInput) uploadInput.value = '';
+          showToast('Reset to monogram avatar');
+        });
+      }
+
+      // 5. Physics-Driven Hanging Lanyard ID Card (Drag to Swing + Click to Flip)
+      const pendulum = document.getElementById('lanyard-pendulum');
+      const cardInner = document.getElementById('id-card-inner');
+      const flipBtn = document.getElementById('flip-badge-btn');
+
+      let angle = 0;
+      let velocity = 0;
+      let dragging = false;
+      let startX = 0;
+      let moved = false;
+
+      function animatePendulum() {
+        if (!dragging) {
+          const spring = -0.055 * angle;
+          velocity = (velocity + spring) * 0.91;
+          angle += velocity;
+          if (Math.abs(angle) < 0.01 && Math.abs(velocity) < 0.01) {
+            angle = 0;
+            velocity = 0;
+          }
+        }
+        if (pendulum) {
+          pendulum.style.transform = `rotate(${angle.toFixed(2)}deg)`;
+        }
+        requestAnimationFrame(animatePendulum);
+      }
+      requestAnimationFrame(animatePendulum);
+
+      if (pendulum) {
+        pendulum.addEventListener('pointerdown', (e) => {
+          dragging = true;
+          moved = false;
+          startX = e.clientX;
+          pendulum.setPointerCapture(e.pointerId);
+        });
+
+        pendulum.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          if (Math.abs(dx) > 5) moved = true;
+          angle = Math.max(-22, Math.min(22, -dx * 0.16));
+        });
+
+        pendulum.addEventListener('pointerup', (e) => {
+          if (!dragging) return;
+          dragging = false;
+          if (!moved && cardInner) {
+            cardInner.classList.toggle('is-flipped');
+            velocity += (cardInner.classList.contains('is-flipped') ? 2.4 : -2.4);
+          }
+        });
+
+        pendulum.addEventListener('pointerenter', () => {
+          if (!dragging && Math.abs(velocity) < 0.5) {
+            velocity += 1.4;
+          }
+        });
+      }
+
+      if (flipBtn && cardInner) {
+        flipBtn.addEventListener('click', () => {
+          cardInner.classList.toggle('is-flipped');
+          velocity += 2.2;
+        });
+      }
+
+      // 6. Periodic Table of Technical Stack (24 Grounded Elements)
+      const stackElements = [
+        { num: '01', sym: 'Gc', name: 'Google Cloud (GCP)', cat: 'cloud', catLabel: 'Cloud', role: 'Primary Cloud · ACE Certified', desc: 'Production GKE, Cloud Armor, Secret Manager, Cloud IAM, VPC Firewall, and Security Command Center across fintech workloads.', metric: 'ACE till Aug 2027' },
+        { num: '02', sym: 'Aw', name: 'Amazon Web Services', cat: 'cloud', catLabel: 'Cloud', role: 'Multi-Cloud Production', desc: 'EC2, EKS, ALB/NLB, VPC, Route 53, S3, AWS WAF/Shield, KMS, IAM, and CloudWatch for HA/DR payment infrastructure.', metric: '50K+ daily req' },
+        { num: '03', sym: 'Az', name: 'Microsoft Azure', cat: 'cloud', catLabel: 'Cloud', role: 'Multi-Cloud Foundation', desc: 'Foundational cloud networking, AKS, and multi-cloud governance exposure supporting hybrid enterprise architectures.', metric: 'Hybrid Ready' },
+        { num: '04', sym: 'K8', name: 'Kubernetes', cat: 'containers', catLabel: 'Containers', role: 'GKE, EKS & On-Prem', desc: 'Cluster administration for 800+ microservices: RBAC, Network Policies, Pod Security Standards, PV/PVC, and resource quotas.', metric: '800+ services' },
+        { num: '05', sym: 'Dk', name: 'Docker', cat: 'containers', catLabel: 'Containers', role: 'Hardened Containers', desc: 'Multi-stage builds with minimal base images, non-root execution, and layer hardening for secure fintech deployments.', metric: 'Non-root hardened' },
+        { num: '06', sym: 'Hm', name: 'Helm', cat: 'containers', catLabel: 'Containers', role: 'K8s Packaging', desc: 'Standardized, versioned Kubernetes chart deployments across dev, staging, and production clusters.', metric: 'Repeatable releases' },
+        { num: '07', sym: 'Hv', name: 'HashiCorp Vault', cat: 'security', catLabel: 'Security & IAM', role: 'Centralized Secrets', desc: 'Dynamic secrets, token-based auth, and fine-grained Vault access policies eliminating hardcoded credentials in code.', metric: 'Zero hardcoded keys' },
+        { num: '08', sym: 'Sm', name: 'Secret Manager', cat: 'security', catLabel: 'Security & IAM', role: 'GCP & AWS Secrets', desc: 'Automated secret creation, injection, and rotation integrated into PCI-DSS certified Access Portal and CI/CD pipelines.', metric: 'PCI-DSS Certified' },
+        { num: '09', sym: 'Ca', name: 'Cloud Armor', cat: 'security', catLabel: 'Security & IAM', role: 'GCP Perimeter WAF', desc: 'Zero-trust WAF rulesets, DDoS mitigation, bot management, rate limiting, and geo-based access controls.', metric: 'OWASP Top 10' },
+        { num: '10', sym: 'Wf', name: 'AWS WAF & Shield', cat: 'security', catLabel: 'Security & IAM', role: 'AWS Perimeter Defense', desc: 'Application gateway defense protecting AWS-hosted fintech APIs and load balancers from DDoS and unauthorized traffic.', metric: 'Multi-cloud WAF' },
+        { num: '11', sym: 'Im', name: 'Cloud IAM / PAM', cat: 'security', catLabel: 'Security & IAM', role: 'Identity Governance', desc: 'Least-privilege IAM/PAM frameworks, approval workflows, and full audit trails across 30+ service accounts.', metric: '30+ service accts' },
+        { num: '12', sym: 'Tv', name: 'Trivy', cat: 'security', catLabel: 'Security & IAM', role: 'Shift-Left Scanner', desc: 'Automated container image and secret scanning embedded into Jenkins pipelines prior to every production release.', metric: '95% ↓ leakage' },
+        { num: '13', sym: 'Sc', name: 'Security Cmd Ctr', cat: 'security', catLabel: 'Security & IAM', role: 'GCP CSPM Posture', desc: 'Continuous cloud security posture monitoring, misconfiguration tracking, and vulnerability remediation on GCP.', metric: 'Continuous CSPM' },
+        { num: '14', sym: 'Jk', name: 'Jenkins', cat: 'cicd', catLabel: 'CI/CD & IaC', role: 'Release Automation', desc: 'Automated build/test/deploy CI/CD pipelines with integrated credential validation and security policy gates.', metric: '800+ pipelines' },
+        { num: '15', sym: 'Gt', name: 'Git & GitHub', cat: 'cicd', catLabel: 'CI/CD & IaC', role: 'Version Control & CI', desc: 'Branch protection, pre-commit security scanning hooks, and collaborative DevSecOps release workflows.', metric: 'Shift-left SSDLC' },
+        { num: '16', sym: 'Tf', name: 'Terraform', cat: 'cicd', catLabel: 'CI/CD & IaC', role: 'Infrastructure as Code', desc: 'Repeatable, policy-compliant cloud infrastructure provisioning across dev, staging, and production environments.', metric: 'Auditable IaC' },
+        { num: '17', sym: 'Ap', name: 'Apigee Gateway', cat: 'networking', catLabel: 'Mesh & Gateway', role: 'API Lifecycle Mgmt', desc: 'Administered proxy policies, OAuth flows, rate limiting, and quota enforcement across 10,000+ API endpoints.', metric: '10,000+ endpoints' },
+        { num: '18', sym: 'Is', name: 'Istio Mesh', cat: 'networking', catLabel: 'Mesh & Gateway', role: 'Zero-Trust mTLS', desc: 'East-west traffic policies, strict mTLS encryption, circuit breaking, and canary rollouts across hybrid clusters.', metric: '25% ↓ latency' },
+        { num: '19', sym: 'Gl', name: 'Gloo Gateway', cat: 'networking', catLabel: 'Mesh & Gateway', role: 'Ingress & Routing', desc: 'North-south and east-west Kubernetes traffic routing, upstream health checks, and gateway access control.', metric: '99.99% uptime' },
+        { num: '20', sym: 'Ng', name: 'NGINX', cat: 'networking', catLabel: 'Mesh & Gateway', role: 'Reverse Proxy & LB', desc: 'SSL termination, reverse proxying, load balancing, and rate limiting for internal and external microservices.', metric: 'Zero SLA breach' },
+        { num: '21', sym: 'Py', name: 'Python', cat: 'scripting', catLabel: 'Code & Observability', role: 'Security Automation', desc: 'Automated cloud security provisioning, compliance checks, and incident remediation scripts across GCP and AWS.', metric: 'Ops Automation' },
+        { num: '22', sym: 'Bs', name: 'Bash / Shell', cat: 'scripting', catLabel: 'Code & Observability', role: 'Pipeline & Linux Ops', desc: 'Custom CI/CD security scanning hooks, automated log collection, and repeatable Linux operational tooling.', metric: 'CI/CD Guardrails' },
+        { num: '23', sym: 'Nd', name: 'Node.js', cat: 'scripting', catLabel: 'Code & Observability', role: 'Internal Security Tools', desc: 'Built the PCI-DSS certified Access & Secrets Management Portal with 2FA, approval workflows, and audit logs.', metric: 'Access Portal' },
+        { num: '24', sym: 'Gf', name: 'Grafana & CW', cat: 'scripting', catLabel: 'Code & Observability', role: 'Monitoring & RCA', desc: 'AWS CloudWatch and Grafana dashboards, alerting, threat monitoring, and end-to-end production incident RCA.', metric: '24x7 On-Call RCA' }
+      ];
+
+      const catBorderColors = {
+        cloud: 'border-blue-400/50 text-blue-400',
+        security: 'border-emerald-400/50 text-emerald-400',
+        containers: 'border-cyan-400/50 text-cyan-400',
+        cicd: 'border-amber-400/50 text-amber-400',
+        networking: 'border-purple-400/50 text-purple-400',
+        scripting: 'border-rose-400/50 text-rose-400'
+      };
+
+      const grid = document.getElementById('periodic-grid');
+      let selectedSym = 'Gc';
+      let activeCat = 'all';
+
+      function updateInspector(item) {
+        selectedSym = item.sym;
+        const tile = document.getElementById('insp-tile');
+        document.getElementById('insp-num').textContent = item.num;
+        document.getElementById('insp-sym').textContent = item.sym;
+        document.getElementById('insp-cat').textContent = item.catLabel;
+        document.getElementById('insp-name').textContent = item.name;
+        document.getElementById('insp-role').textContent = item.role;
+        document.getElementById('insp-desc').textContent = item.desc;
+        document.getElementById('insp-metric').textContent = item.metric;
+
+        if (tile) {
+          tile.className = 'w-20 h-20 rounded-2xl border flex flex-col justify-between p-2.5 bg-zinc-950/90 ' + catBorderColors[item.cat];
+        }
+        document.querySelectorAll('.pt-tile').forEach((el) => {
+          el.classList.toggle('active', el.dataset.sym === item.sym);
+        });
+      }
+
+      function renderPeriodicTable() {
+        if (!grid) return;
+        grid.innerHTML = '';
+        stackElements.forEach((item) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.dataset.sym = item.sym;
+          btn.dataset.cat = item.cat;
+          const isDimmed = activeCat !== 'all' && item.cat !== activeCat;
+          btn.className = `pt-tile cat-${item.cat} ${item.sym === selectedSym ? 'active' : ''} ${isDimmed ? 'dimmed' : ''}`;
+          btn.innerHTML = `
+            <div class="flex items-center justify-between text-[9px] font-mono text-zinc-500">
+              <span>${item.num}</span>
+            </div>
+            <div class="pt-symbol text-xl sm:text-2xl font-black tracking-tight mt-1 leading-none">${item.sym}</div>
+            <div class="text-[10px] text-zinc-400 truncate mt-1.5 font-medium">${item.name}</div>
+          `;
+          btn.addEventListener('click', () => updateInspector(item));
+          btn.addEventListener('mouseenter', () => {
+            if (activeCat === 'all' || item.cat === activeCat) updateInspector(item);
+          });
+          grid.appendChild(btn);
+        });
+      }
+
+      document.querySelectorAll('.stack-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeCat = btn.dataset.cat;
+          document.querySelectorAll('.stack-filter-btn').forEach((b) => {
+            const active = b.dataset.cat === activeCat;
+            b.className = active
+              ? 'stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-black transition'
+              : 'stack-filter-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-300 hover:border-white/30 transition';
+          });
+          renderPeriodicTable();
+          const firstMatch = stackElements.find((el) => activeCat === 'all' || el.cat === activeCat);
+          if (firstMatch) updateInspector(firstMatch);
+        });
+      });
+
+      renderPeriodicTable();
+      updateInspector(stackElements[0]);
+
+      // 7. Sticky Year Experience Switcher & Scroll Sync
+      const stickyYear = document.getElementById('sticky-year');
+      const stickyPeriod = document.getElementById('sticky-period');
+      const expBlocks = document.querySelectorAll('.exp-block');
+
+      function setActiveYear(year, period) {
+        if (stickyYear) stickyYear.textContent = year;
+        if (stickyPeriod) stickyPeriod.textContent = period;
+        document.querySelectorAll('.year-jump-btn').forEach((btn) => {
+          const isMatch = btn.dataset.yearJump === year;
+          btn.className = isMatch
+            ? 'year-jump-btn px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold transition'
+            : 'year-jump-btn px-3 py-1.5 rounded-full text-xs font-mono bg-white/[0.05] border border-white/10 text-zinc-400 hover:text-white transition';
+        });
+      }
+
+      document.querySelectorAll('.year-jump-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const yr = btn.dataset.yearJump;
+          const target = document.getElementById('role-' + yr);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setActiveYear(yr, target.dataset.period);
+          }
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        const expObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveYear(entry.target.dataset.year, entry.target.dataset.period);
+            }
+          });
+        }, { threshold: 0.45 });
+        expBlocks.forEach((el) => expObserver.observe(el));
+      }
+
+      // 8. Interactive Projects + Live SVG Architecture Diagrams
+      const projects = [
+        {
+          id: 'access-portal',
+          tab: 'Access Portal (PAM)',
+          year: '2024 – 2026',
+          badge: 'PCI-DSS Certified',
+          title: 'Access Portal — PAM & Secrets Management Platform',
+          desc: 'Built a containerized user and secrets management portal automating secret creation, PAM approval workflows, and compliance reviews across GCP and AWS.',
+          bullets: [
+            'Integrated directly with GCP Secret Manager and AWS Secrets Manager',
+            'Role-based PAM approval workflows with immutable audit log tracking',
+            'Enforced 2FA, account lockout, and application-level security controls',
+            'Certified PCI-DSS compliant for production fintech access governance'
+          ],
+          tags: ['Kubernetes', 'Node.js', 'GCP Secret Manager', 'AWS Secrets Manager', 'IAM/PAM', '2FA'],
+          nodes: [
+            { x: 20, y: 80, label: 'Engineer', sub: '2FA Auth' },
+            { x: 165, y: 80, label: 'Access Portal', sub: 'Node.js · K8s' },
+            { x: 315, y: 34, label: 'PAM Approval', sub: 'Audit Trail' },
+            { x: 315, y: 126, label: 'Secret Mgr', sub: 'GCP & AWS' }
+          ],
+          edges: [[0, 1], [1, 2], [1, 3], [2, 3]]
+        },
+        {
+          id: 'api-mesh',
+          tab: 'API Gateway & Mesh',
+          year: '2023 – 2024',
+          badge: '99.99% Uptime',
+          title: 'API Gateway & Service Mesh Operations Platform',
+          desc: 'Architected and operated a unified API gateway and service mesh layer across hybrid cloud, governing 10,000+ endpoints with 25% latency improvement.',
+          bullets: [
+            'Managed Apigee proxy policies, OAuth flows, quotas, and rate limiting',
+            'Enforced Istio & Gloo east-west traffic policies with strict mTLS',
+            'Operated NGINX SSL termination and upstream health checks at scale',
+            'Sustained 99.99% production uptime with zero SLA breaches'
+          ],
+          tags: ['Apigee', 'Istio', 'Gloo', 'NGINX', 'mTLS', 'GCP / AWS'],
+          nodes: [
+            { x: 20, y: 80, label: '10K+ APIs', sub: 'Client Traffic' },
+            { x: 165, y: 80, label: 'Apigee / NGINX', sub: 'OAuth · Quota' },
+            { x: 315, y: 34, label: 'Istio Mesh', sub: 'Strict mTLS' },
+            { x: 315, y: 126, label: '800+ Services', sub: '25% ↓ Latency' }
+          ],
+          edges: [[0, 1], [1, 2], [2, 3], [1, 3]]
+        },
+        {
+          id: 'shift-left',
+          tab: 'Shift-Left CI/CD',
+          year: '2023 – 2024',
+          badge: '95% ↓ Leakage',
+          title: 'Shift-Left CI/CD Security Pipeline Automation',
+          desc: 'Engineered automated security validation into Jenkins CI/CD pipelines so every code commit and Docker image passes secret and policy gates before deployment.',
+          bullets: [
+            'Automated Trivy container & secret scanning on every commit',
+            'Custom Bash policy gates blocking hardcoded credentials early in SDLC',
+            'Scaled across 800+ microservices with zero drag on release velocity',
+            'Cut production credential leakage incidents by 95%'
+          ],
+          tags: ['Jenkins', 'Trivy', 'Bash', 'Docker', 'GCP', 'AWS'],
+          nodes: [
+            { x: 20, y: 80, label: 'Git Commit', sub: 'PR Trigger' },
+            { x: 165, y: 80, label: 'Jenkins Gate', sub: 'Policy Engine' },
+            { x: 315, y: 34, label: 'Trivy Scan', sub: 'Secrets & CVE' },
+            { x: 315, y: 126, label: 'Safe Deploy', sub: 'K8s Prod' }
+          ],
+          edges: [[0, 1], [1, 2], [2, 3]]
+        },
+        {
+          id: 'perimeter',
+          tab: 'Multi-Cloud Perimeter',
+          year: '2024 – 2025',
+          badge: '50K+ Daily Req',
+          title: 'Multi-Cloud Perimeter Security Architecture',
+          desc: 'Designed and deployed a unified zero-trust perimeter defense layer across GCP and AWS protecting high-concurrency fintech payment workloads.',
+          bullets: [
+            'Unified Google Cloud Armor and AWS WAF/Shield rulesets',
+            'Applied rate limiting, bot management, and geo-access policies',
+            'Segmented inter-service traffic via VPC firewall and network policies',
+            'Hardened attack surface across 50,000+ daily production requests'
+          ],
+          tags: ['Cloud Armor', 'AWS WAF/Shield', 'HashiCorp Vault', 'VPC Firewall'],
+          nodes: [
+            { x: 20, y: 80, label: 'Edge Traffic', sub: '50K+ Req/Day' },
+            { x: 165, y: 80, label: 'WAF Layer', sub: 'Armor + Shield' },
+            { x: 315, y: 34, label: 'VPC Policies', sub: 'Zero-Trust' },
+            { x: 315, y: 126, label: 'Fintech Core', sub: 'GCP & AWS' }
+          ],
+          edges: [[0, 1], [1, 2], [2, 3]]
+        }
+      ];
+
+      function buildArchitectureSVG(proj) {
+        const w = 112;
+        const h = 48;
+        const edgeMarkup = proj.edges.map(([a, b]) => {
+          const n1 = proj.nodes[a];
+          const n2 = proj.nodes[b];
+          const x1 = n1.x + w;
+          const y1 = n1.y + h / 2;
+          const x2 = n2.x;
+          const y2 = n2.y + h / 2;
+          // vertical link if same x
+          if (n1.x === n2.x) {
+            return `<line x1="${n1.x + w / 2}" y1="${n1.y + h}" x2="${n2.x + w / 2}" y2="${n2.y}" stroke="rgba(52,211,153,0.55)" stroke-width="1.5" class="flow-line" />`;
+          }
+          const mx = (x1 + x2) / 2;
+          return `<path d="M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5" class="flow-line" />`;
+        }).join('');
+
+        const nodeMarkup = proj.nodes.map((n, idx) => `
+          <g transform="translate(${n.x}, ${n.y})">
+            <rect width="${w}" height="${h}" rx="12" fill="${idx === 1 ? '#181822' : '#0f0f15'}" stroke="${idx === 1 ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.14)'}" stroke-width="1.2" />
+            <text x="${w / 2}" y="21" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-size="11" font-weight="700">${n.label}</text>
+            <text x="${w / 2}" y="36" text-anchor="middle" fill="#a1a1aa" font-family="JetBrains Mono, monospace" font-size="9">${n.sub}</text>
+          </g>
+        `).join('');
+
+        return `
+          <svg viewBox="0 0 448 206" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${proj.title} architecture diagram">
+            ${edgeMarkup}
+            ${nodeMarkup}
+          </svg>
+        `;
+      }
+
+      const tabsEl = document.getElementById('project-tabs');
+      let currentProjId = projects[0].id;
+
+      function renderProject(proj) {
+        currentProjId = proj.id;
+        document.getElementById('proj-year').textContent = proj.year;
+        document.getElementById('proj-badge').textContent = proj.badge;
+        document.getElementById('proj-title').textContent = proj.title;
+        document.getElementById('proj-desc').textContent = proj.desc;
+
+        const ul = document.getElementById('proj-bullets');
+        ul.innerHTML = proj.bullets.map((b) => `
+          <li class="flex items-start gap-2.5">
+            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white shrink-0"></span>
+            <span>${b}</span>
+          </li>
+        `).join('');
+
+        const tags = document.getElementById('proj-tags');
+        tags.innerHTML = proj.tags.map((t) => `
+          <span class="px-2.5 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-[11px] font-mono text-zinc-300">${t}</span>
+        `).join('');
+
+        document.getElementById('proj-diagram').innerHTML = buildArchitectureSVG(proj);
+
+        if (tabsEl) {
+          tabsEl.querySelectorAll('button').forEach((b) => {
+            const active = b.dataset.proj === proj.id;
+            b.className = active
+              ? 'px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-black transition'
+              : 'px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-zinc-400 hover:text-white transition';
+          });
+        }
+      }
+
+      if (tabsEl) {
+        projects.forEach((p) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.dataset.proj = p.id;
+          b.textContent = p.tab;
+          b.addEventListener('click', () => renderProject(p));
+          tabsEl.appendChild(b);
+        });
+      }
+      renderProject(projects[0]);
+
+      // 9. Scroll-Reveal & Active Nav Highlight & Animated KPI Counters
+      const revealEls = document.querySelectorAll('.reveal');
+      const sections = document.querySelectorAll('section[id]');
+      const navPills = document.querySelectorAll('.nav-pill');
+
+      if ('IntersectionObserver' in window) {
+        const revObs = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              revObs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealEls.forEach((el) => revObs.observe(el));
+
+        const secObs = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              const id = e.target.id;
+              navPills.forEach((p) => {
+                const isActive = p.dataset.section === id;
+                p.classList.toggle('bg-white', isActive);
+                p.classList.toggle('text-black', isActive);
+                p.classList.toggle('font-semibold', isActive);
+                p.classList.toggle('text-zinc-400', !isActive);
+              });
+            }
+          });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+        sections.forEach((s) => secObs.observe(s));
+
+        // Animated KPI Counters
+        const kpiEls = document.querySelectorAll('.kpi-counter');
+        const kpiObs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.dataset.target, 10) || 0;
+            const suffix = el.dataset.suffix || '';
+            const duration = 900;
+            const start = performance.now();
+            function tick(now) {
+              const progress = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              el.textContent = Math.round(target * eased) + suffix;
+              if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+            kpiObs.unobserve(el);
+          });
+        }, { threshold: 0.5 });
+        kpiEls.forEach((k) => kpiObs.observe(k));
+      } else {
+        revealEls.forEach((el) => el.classList.add('visible'));
+      }
+
+      // 10. Contact Actions & Modal
+      const copyEmailBtn = document.getElementById('copy-email-btn');
+      const navCopyEmail = document.getElementById('nav-copy-email');
+      const copyPhoneBtn = document.getElementById('copy-phone-btn');
+      const modal = document.getElementById('contact-modal');
+      const openModalBtn = document.getElementById('open-contact-modal');
+      const closeModalBtn = document.getElementById('close-contact-modal');
+      const cancelModalBtn = document.getElementById('cancel-contact-modal');
+      const contactForm = document.getElementById('contact-form');
+
+      if (copyEmailBtn) copyEmailBtn.addEventListener('click', () => copyText('harshranjan63@gmail.com', 'Email'));
+      if (navCopyEmail) navCopyEmail.addEventListener('click', () => copyText('harshranjan63@gmail.com', 'Email'));
+      if (copyPhoneBtn) copyPhoneBtn.addEventListener('click', () => copyText('+91 8249162133', 'Phone number'));
+
+      function toggleModal(open) {
+        if (!modal) return;
+        modal.classList.toggle('hidden', !open);
+        modal.classList.toggle('flex', open);
+      }
+
+      if (openModalBtn) openModalBtn.addEventListener('click', () => toggleModal(true));
+      if (closeModalBtn) closeModalBtn.addEventListener('click', () => toggleModal(false));
+      if (cancelModalBtn) cancelModalBtn.addEventListener('click', () => toggleModal(false));
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) toggleModal(false);
+        });
+      }
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('msg-name').value.trim();
+          const email = document.getElementById('msg-email').value.trim();
+          const body = document.getElementById('msg-body').value.trim();
+          const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+          const mailBody = encodeURIComponent(`Hi Harsh,\n\n${body}\n\nBest,\n${name} (${email})`);
+          window.open(`mailto:harshranjan63@gmail.com?subject=${subject}&body=${mailBody}`, '_blank');
+          contactForm.reset();
+          toggleModal(false);
+          showToast('Opening your email client for Harsh!');
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
